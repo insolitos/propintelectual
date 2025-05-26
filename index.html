@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propriedade Intelectual em Educação</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.6);
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-tab:hover::before {
+            left: 100%;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .concept-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .concept-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .interactive-element {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .quiz-question {
+            display: none;
+            text-align: center;
+        }
+
+        .quiz-question.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .quiz-option {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: #4CAF50;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(244, 67, 54, 0.2);
+            border-color: #f44336;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .resource-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-warning {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+            
+            .nav-tabs {
+                gap: 0.3rem;
+            }
+            
+            .nav-tab {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1>🎓 Propriedade Intelectual em Educação</h1>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('intro')">📚 Introdução</button>
+                <button class="nav-tab" onclick="showSection('concepts')">💡 Conceitos</button>
+                <button class="nav-tab" onclick="showSection('legislation')">⚖️ Legislação</button>
+                <button class="nav-tab" onclick="showSection('projects')">🚀 Projetos</button>
+                <button class="nav-tab" onclick="showSection('guide')">👨‍🏫 Guia Prático</button>
+                <button class="nav-tab" onclick="showSection('quiz')">🧠 Quiz</button>
+            </nav>
+        </header>
+
+        <main class="content">
+            <!-- Introdução -->
+            <section id="intro" class="section active">
+                <div class="card">
+                    <div class="icon">🎯</div>
+                    <h2 style="text-align: center; margin-bottom: 1rem; color: #667eea;">Bem-vindo ao Mundo da Propriedade Intelectual</h2>
+                    <p style="text-align: center; font-size: 1.1rem; line-height: 1.6;">
+                        Descubra como proteger e respeitar a criatividade e inovação no ambiente educativo digital.
+                    </p>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">34%</div>
+                        <p>dos jovens portugueses acedem intencionalmente a conteúdos ilegais</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">671.000</div>
+                        <p>postos de trabalho perdidos na UE devido à contrafação</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15 mil M€</div>
+                        <p>em receitas fiscais perdidas anualmente</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🌟 Porque é isto importante?</h3>
+                    <p>Com a digitalização massiva da educação, o respeito pela propriedade intelectual tornou-se crucial. A facilidade de copiar e partilhar conteúdos digitais criou novos desafios que precisamos de enfrentar.</p>
+                </div>
+
+                <div class="interactive-element" onclick="showSection('concepts')">
+                    <h3>✨ Comece a sua jornada aqui!</h3>
+                    <p>Clique para explorar os conceitos fundamentais →</p>
+                </div>
+            </section>
+
+            <!-- Conceitos -->
+            <section id="concepts" class="section">
+                <div class="card">
+                    <h2 style="color: #667eea; margin-bottom: 2rem;">💡 Conceitos Fundamentais</h2>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card" onclick="toggleDetails('copyright')">
+                            <h3>📖 Direitos de Autor</h3>
+                            <p>Protegem obras originais literárias, artísticas ou científicas</p>
+                            <div id="copyright" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Incluem:</strong> textos, músicas, filmes, software, materiais educativos<br>
+                                <strong>Proteção:</strong> Automática desde o momento da criação
+                            </div>
+                        </div>
+
+                        <div class="concept-card" onclick="toggleDetails('patents')">
+                            <h3>🔬 Patentes</h3>
+                            <p>Protegem invenções técnicas novas e com aplicação industrial</p>
+                            <div id="patents" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Contexto educativo:</strong> Projetos de ciências e tecnologia<br>
+                                <strong>Requisitos:</strong> Novidade, atividade inventiva, aplicação industrial
+                            </div>
+                        </div>
+
+                        <div class="concept-card" onclick="toggleDetails('trademarks')">
+                            <h3>🏷️ Marcas</h3>
+                            <p>Distinguem produtos ou serviços de uma empresa</p>
+                            <div id="trademarks" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Na educação:</strong> Logos de instituições, nomes de cursos<br>
+                                <strong>Exemplos:</strong> Plataformas educativas, materiais didáticos
+                            </div>
+                        </div>
+
+                        <div class="concept-card" onclick="toggleDetails('designs')">
+                            <h3>🎨 Desenhos e Modelos</h3>
+                            <p>Protegem o aspeto estético de produtos</p>
+                            <div id="designs" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Aplicações:</strong> Jogos educativos, mobiliário escolar<br>
+                                <strong>Proteção:</strong> Forma, configuração, ornamentação
+                            </div>
+                        </div>
+
+                        <div class="concept-card" onclick="toggleDetails('secrets')">
+                            <h3>🔒 Segredos Comerciais</h3>
+                            <p>Informações confidenciais com vantagem competitiva</p>
+                            <div id="secrets" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Exemplos:</strong> Metodologias de ensino inovadoras<br>
+                                <strong>Proteção:</strong> Confidencialidade e medidas de segurança
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Legislação -->
+            <section id="legislation" class="section">
+                <div class="card">
+                    <h2 style="color: #667eea; margin-bottom: 2rem;">⚖️ Legislação Portuguesa</h2>
+                    
+                    <div class="legal-warning">
+                        <h3>⚠️ Proteção Automática</h3>
+                        <p>Em Portugal, a proteção de obras é <strong>automática</strong> - não requer qualquer formalidade!</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h3>📋 Exceção de Citação (Artigo 75º)</h3>
+                        <p><strong>Permite:</strong> Pequenos excertos para fins de crítica, ensino ou trabalhos científicos</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>✅ Indicar fonte e autor</li>
+                            <li>✅ Limitar aos excertos necessários</li>
+                            <li>✅ Uso compatível com usos honrados</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h3>✅ Usos Permitidos</h3>
+                            <ul style="text-align: left; margin-top: 1rem;">
+                                <li>Excertos de programas TV/rádio no LMS</li>
+                                <li>Fragmentos de filmes em sala de aula</li>
+                                <li>Pequenos trechos literários para análise</li>
+                                <li>Imagens essenciais para explicação</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h3>❌ Situações de Risco</h3>
+                            <ul style="text-align: left; margin-top: 1rem;">
+                                <li>Partilha em plataformas abertas</li>
+                                <li>Uso continuado sistemático</li>
+                                <li>Distribuição externa à escola</li>
+                                <li>Cópias integrais de CDs/DVDs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projetos -->
+            <section id="projects" class="section">
+                <div class="card">
+                    <h2 style="color: #667eea; margin-bottom: 2rem;">🚀 Projetos e Recursos</h2>
+                    
+                    <div class="resource-grid">
+                        <div class="resource-card">
+                            <div class="icon" style="margin: 0 auto 1rem;">🌍</div>
+                            <h3>IdeasPowered@School</h3>
+                            <p>Iniciativa da EUIPO com materiais gratuitos para idades 6-18 anos</p>
+                            <div style="margin-top: 1rem;">
+                                <span style="background: #667eea; color: white; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Internacional</span>
+                            </div>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="icon" style="margin: 0 auto 1rem;">🇵🇹</div>
+                            <h3>Brain IDeas 2.0</h3>
+                            <p>Projeto português do INPI com jogo interativo e conferências</p>
+                            <div style="margin-top: 1rem;">
+                                <span style="background: #28a745; color: white; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">300+ Participantes</span>
+                            </div>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="icon" style="margin: 0 auto 1rem;">📚</div>
+                            <h3>OMPI Academy</h3>
+                            <p>Cursos online gratuitos e certificações profissionais</p>
+                            <div style="margin-top: 1rem;">
+                                <span style="background: #ff6b6b; color: white; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Certificação</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h3>🎯 Componentes do Brain IDeas 2.0</h3>
+                        <ul>
+                            <li><strong>Jogo de Tabuleiro Online:</strong> Competição para até 4 equipas</li>
+                            <li><strong>Site Informativo:</strong> Conteúdos sobre direitos de autor</li>
+                            <li><strong>Conferências:</strong> 8 sessões em Escolas Superiores</li>
+                            <li><strong>Formação Docente:</strong> Capacitação de professores</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Guia Prático -->
+            <section id="guide" class="section">
+                <div class="card">
+                    <h2 style="color: #667eea; margin-bottom: 2rem;">👨‍🏫 Guia Prático para Professores</h2>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h3>🔍 Verificação de Licenças</h3>
+                            <ul style="text-align: left;">
+                                <li>Identificar fontes legítimas</li>
+                                <li>Interpretar termos Creative Commons</li>
+                                <li>Documentar uso adequadamente</li>
+                                <li>Acompanhar mudanças legislativas</li>
+                            </ul>
+                        </div>
+
+                        <div class="concept-card">
+                            <h3>📖 Recursos Educativos Abertos</h3>
+                            <ul style="text-align: left;">
+                                <li>MIT OpenCourseWare</li>
+                                <li>Khan Academy</li>
+                                <li>OER Commons</li>
+                                <li>Criação de REA próprios</li>
+                            </ul>
+                        </div>
+
+                        <div class="concept-card">
+                            <h3>🏷️ Licenças Creative Commons</h3>
+                            <ul style="text-align: left;">
+                                <li><strong>CC BY:</strong> Atribuição apenas</li>
+                                <li><strong>CC BY-SA:</strong> Partilha igual</li>
+                                <li><strong>CC BY-NC:</strong> Não comercial</li>
+                                <li><strong>CC BY-ND:</strong> Sem derivações</li>
+                            </ul>
+                        </div>
+
+                        <div class="concept-card">
+                            <h3>🎓 Sensibilização de Alunos</h3>
+                            <ul style="text-align: left;">
+                                <li>Discussões éticas</li>
+                                <li>Estudos de caso reais</li>
+                                <li>Simulações práticas</li>
+                                <li>Alternativas legais</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="legal-warning">
+                        <h3>📊 Limites Práticos</h3>
+                        <ul>
+                            <li><strong>Textos:</strong> Máximo 10% da obra</li>
+                            <li><strong>Vídeos:</strong> Excertos de 3-5 minutos</li>
+                            <li><strong>Imagens:</strong> Uso integral se essencial</li>
+                            <li><strong>Software:</strong> Licenças específicas para múltiplos PCs</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section id="quiz" class="section">
+                <div class="quiz-container">
+                    <h2 style="color: #667eea; text-align: center; margin-bottom: 2rem;">🧠 Teste os seus Conhecimentos</h2>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+
+                    <div class="quiz-question active" id="q1">
+                        <h3>Em Portugal, quando é que uma obra fica protegida por direitos de autor?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Apenas após registo no INPI</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, true)">Automaticamente no momento da criação</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Após publicação oficial</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Só com depósito em cartório</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="q2">
+                        <h3>Qual a percentagem máxima de um texto que posso usar para fins educativos?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">5%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, true)">10%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">15%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">25%</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="q3">
+                        <h3>Quantos jovens portugueses acedem intencionalmente a conteúdos ilegais?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">25%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">30%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, true)">34%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">40%</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="q4">
+                        <h3>O que significa a licença Creative Commons "CC BY-NC"?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Apenas com atribuição</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, true)">Atribuição, uso não comercial</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Sem obras derivadas</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Partilha com mesma licença</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question" id="q5">
+                        <h3>Qual é o projeto português de sensibilização para propriedade intelectual?</h3>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">IdeasPowered@School</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, true)">Brain IDeas 2.0</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">OMPI Academy</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">Creative Commons Portugal</div>
+                        </div>
+                    </div>
+
+                    <div id="quizResult" style="display: none; text-align: center;">
+                        <h3 id="resultTitle"></h3>
+                        <p id="resultMessage"></p>
+                        <button class="btn" onclick="restartQuiz()">🔄 Repetir Quiz</button>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <span id="questionCounter">Questão 1 de 5</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let score = 0;
+        const totalQuestions = 5;
+
+        // Criar partículas flutuantes
+        function createParticles() {
+            const container = document.querySelector('.floating-particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Navegação entre secções
+        function showSection(sectionId) {
+            // Esconder todas as secções
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remover classe active de todos os tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar secção selecionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Adicionar classe active ao tab selecionado
+            event.target.classList.add('active');
+        }
+
+        // Toggle detalhes dos conceitos
+        function toggleDetails(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        // Lógica do Quiz
+        function selectAnswer(element, isCorrect) {
+            // Desabilitar todas as opções
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.onclick.toString().includes('true')) {
+                    option.classList.add('correct');
+                } else if (option === element && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+            }
+
+            // Avançar para próxima questão após 2 segundos
+            setTimeout(() => {
+                nextQuestion();
+            }, 2000);
+        }
+
+        function nextQuestion() {
+            // Esconder questão atual
+            document.getElementById(`q${currentQuestion}`).classList.remove('active');
+            
+            currentQuestion++;
+            
+            if (currentQuestion <= totalQuestions) {
+                // Mostrar próxima questão
+                document.getElementById(`q${currentQuestion}`).classList.add('active');
+                document.getElementById('questionCounter').textContent = `Questão ${currentQuestion} de ${totalQuestions}`;
+                
+                // Atualizar barra de progresso
+                const progress = ((currentQuestion - 1) / totalQuestions) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+            } else {
+                // Mostrar resultado final
+                showResult();
+            }
+        }
+
+        function showResult() {
+            // Esconder todas as questões
+            document.querySelectorAll('.quiz-question').forEach(q => q.style.display = 'none');
+            document.getElementById('questionCounter').style.display = 'none';
+            
+            // Mostrar resultado
+            const result = document.getElementById('quizResult');
+            const title = document.getElementById('resultTitle');
+            const message = document.getElementById('resultMessage');
+            
+            const percentage = (score / totalQuestions) * 100;
+            
+            if (percentage >= 80) {
+                title.textContent = '🎉 Excelente!';
+                message.textContent = `Parabéns! Acertou ${score} de ${totalQuestions} questões (${percentage}%). Tem um conhecimento sólido sobre propriedade intelectual!`;
+            } else if (percentage >= 60) {
+                title.textContent = '👍 Bom trabalho!';
+                message.textContent = `Acertou ${score} de ${totalQuestions} questões (${percentage}%). Continue a estudar para melhorar ainda mais!`;
+            } else {
+                title.textContent = '📚 Continue a aprender!';
+                message.textContent = `Acertou ${score} de ${totalQuestions} questões (${percentage}%). Reveja os conceitos e tente novamente!`;
+            }
+            
+            result.style.display = 'block';
+            document.getElementById('progressBar').style.width = '100%';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            
+            // Mostrar primeira questão
+            document.querySelectorAll('.quiz-question').forEach(q => {
+                q.style.display = 'none';
+                q.classList.remove('active');
+            });
+            document.getElementById('q1').style.display = 'block';
+            document.getElementById('q1').classList.add('active');
+            
+            // Resetar opções
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.style.pointerEvents = 'auto';
+            });
+            
+            // Esconder resultado
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('questionCounter').style.display = 'block';
+            document.getElementById('questionCounter').textContent = 'Questão 1 de 5';
+            document.getElementById('progressBar').style.width = '0%';
+        }
+
+        // Inicializar app
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
